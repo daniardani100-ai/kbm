@@ -1,10 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Admin</title>
+
+  <link
+    rel="stylesheet"
+    href="../assets/css/app.css"
+  >
+</head>
+<body>
+
 <script src="../assets/js/auth.js"></script>
 <script>
-checkAdmin();
+  checkAdmin();
 </script>
 
-<h1>Dashboard Admin</h1>
+<div class="wrapper">
 
-<button onclick="logout()">
-  Logout
-</button>
+  <aside class="sidebar">
+
+    <div class="logo">
+      ABSENSI
+    </div>
+
+    <div class="menu">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="kelas.html">Data Kelas</a>
+      <a href="siswa.html">Data Siswa</a>
+      <a href="users.html">Data User</a>
+      <a href="laporan.html">Laporan</a>
+    </div>
+
+  </aside>
+
+  <main class="main">
+
+    <div class="topbar">
+      <div>Dashboard Admin</div>
+
+      <div>
+        <span id="namaUser"></span>
+        |
+        <a href="#" onclick="logout()">
+          Logout
+        </a>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="card">
+        <h2>Selamat Datang</h2>
+
+        <p>
+          Sistem Absensi Sekolah
+        </p>
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../assets/js/layout.js"></script>
+
+<script>
+document.getElementById(
+  "namaUser"
+).innerHTML = getUserName();
+</script>
+
+</body>
+</html>
