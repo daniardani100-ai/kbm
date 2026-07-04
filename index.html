@@ -1,0 +1,20 @@
+<script>
+const session =
+  localStorage.getItem("session");
+
+if (session) {
+  const user = JSON.parse(session);
+
+  if (user.role === "admin") {
+    location.href =
+      "admin/dashboard.html";
+  } else {
+    location.href =
+      "tim/dashboard.html";
+  }
+}
+else {
+  location.href =
+    "login.html";
+}
+</script>
