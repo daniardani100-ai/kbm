@@ -1,6 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Data User</title>
+
+  <link
+    rel="stylesheet"
+    href="../assets/css/app.css"
+  >
+</head>
+<body>
+
 <script src="../assets/js/auth.js"></script>
 <script>
 checkAdmin();
 </script>
 
-<h1>Data User</h1>
+<div class="wrapper">
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      ABSENSI
+    </div>
+
+    <div class="menu">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="users.html">Data User</a>
+      <a href="laporan.html">Laporan</a>
+    </div>
+
+  </aside>
+
+  <main class="main">
+
+    <div class="topbar">
+      <div>Data User</div>
+
+      <div>
+        <span id="namaUser"></span>
+        |
+        <a href="#" onclick="logout()">
+          Logout
+        </a>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="card">
+
+        <h3>Tambah User</h3>
+
+        <form id="formUser">
+
+          <input
+            type="text"
+            id="username"
+            placeholder="Username"
+            required
+          >
+
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+          >
+
+          <input
+            type="text"
+            id="kelas"
+            placeholder="Kelas"
+            required
+          >
+
+          <button type="submit">
+            Simpan
+          </button>
+
+        </form>
+
+      </div>
+
+      <br>
+
+      <div class="card">
+
+        <h3>Daftar User</h3>
+
+        <table
+          border="1"
+          width="100%"
+          id="tblUser"
+        >
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Kelas</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+
+          <tbody></tbody>
+        </table>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/layout.js"></script>
+
+<script>
+
+document.getElementById(
+  'namaUser'
+).innerHTML =
+  getSession().username;
+
+loadUsers();
+
+async function loadUsers() {
+
+  const res =
+    await apiGet('getUsers');
+
+  const tbody =
+    document.querySelector(
+      '#tblUser tbody'
+    );
+
+  tbody.innerHTML = '';
+
+  if (!res.success) return;
+
+  res.data
+    .filter(x => x.role === 'tim')
+    .forEach(user => {
+
+      tbody.innerHTML += `
+        <tr>
+          <td>${user.username}</td>
+          <td>${user.kelas}</td>
+          <td>
+            <button
+              onclick="hapus('${user.id}')">
+              Hapus
+            </button>
+          </td>
+        </tr>
+      `;
+    });
+}
+
+document
+.getElementById('formUser')
+.addEventListener(
+  'submit',
+  async function(e){
+
+    e.preventDefault();
+
+    const res =
+      await apiPost({
+        action: 'saveUser',
+        username:
+          username.value,
+        password:
+          password.value,
+        role: 'tim',
+        kelas:
+          kelas.value
+      });
+
+    alert(res.message);
+
+    if (res.success) {
+      this.reset();
+      loadUsers();
+    }
+  }
+);
+
+async function hapus(id) {
+
+  if (
+    !confirm(
+      'Hapus user ini?'
+    )
+  ) return;
+
+  const res =
+    await apiPost({
+      action: 'deleteUser',
+      id
+    });
+
+  alert(res.message);
+
+  loadUsers();
+}
+
+</script>
+
+</body>
+</html>
