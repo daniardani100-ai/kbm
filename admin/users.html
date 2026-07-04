@@ -123,6 +123,26 @@ document.getElementById(
 ).innerHTML =
   getSession().username;
 
+    async function loadKelas() {
+  const res = await apiGet('getKelas');
+
+  if (!res.success) return;
+
+  const select =
+    document.getElementById('kelas');
+
+  select.innerHTML =
+    '<option value="">-- Pilih Kelas --</option>';
+
+  res.data.forEach(kelas => {
+    select.innerHTML += `
+      <option value="${kelas.nama_kelas}">
+        ${kelas.nama_kelas}
+      </option>
+    `;
+  });
+}
+  
 loadUsers();
 
 async function loadUsers() {
@@ -166,16 +186,22 @@ document
 
     e.preventDefault();
 
+    const username =
+      document.getElementById('username').value;
+
+    const password =
+      document.getElementById('password').value;
+
+    const kelas =
+      document.getElementById('kelas').value;
+
     const res =
       await apiPost({
         action: 'saveUser',
-        username:
-          username.value,
-        password:
-          password.value,
+        username,
+        password,
         role: 'tim',
-        kelas:
-          kelas.value
+        kelas
       });
 
     alert(res.message);
@@ -187,6 +213,8 @@ document
   }
 );
 
+
+  
 async function hapus(id) {
 
   if (
