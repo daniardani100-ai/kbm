@@ -1,10 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Tim</title>
+
+  <link
+    rel="stylesheet"
+    href="../assets/css/app.css"
+  >
+</head>
+<body>
+
 <script src="../assets/js/auth.js"></script>
 <script>
 checkTim();
 </script>
 
-<h1>Dashboard Tim</h1>
+<div class="wrapper">
 
-<button onclick="logout()">
-  Logout
-</button>
+  <aside class="sidebar">
+
+    <div class="logo">
+      ABSENSI
+    </div>
+
+    <div class="menu">
+      <a href="dashboard.html">
+        Dashboard
+      </a>
+
+      <a href="absensi.html">
+        Absensi
+      </a>
+
+      <a href="riwayat.html">
+        Riwayat
+      </a>
+    </div>
+
+  </aside>
+
+  <main class="main">
+
+    <div class="topbar">
+
+      <div>Dashboard Tim</div>
+
+      <div>
+        <span id="namaUser"></span>
+        |
+        <a href="#" onclick="logout()">
+          Logout
+        </a>
+      </div>
+
+    </div>
+
+    <div class="content">
+
+      <div class="card">
+
+        <h2>Selamat Datang</h2>
+
+        <p id="kelas"></p>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../assets/js/layout.js"></script>
+
+<script>
+const user = getSession();
+
+document.getElementById(
+  "namaUser"
+).innerHTML = user.username;
+
+document.getElementById(
+  "kelas"
+).innerHTML =
+  "Kelas : " + user.kelas;
+</script>
+
+</body>
+</html>
